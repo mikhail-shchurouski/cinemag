@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import date
+
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -86,6 +88,11 @@ class Movie(models.Model):
     class Meta:
         verbose_name = _("Фильм")
         verbose_name_plural = _("Фильмы")
+
+    def get_absolute_url(self):
+        # метод возвращает результат работы метода reverse
+        # в метод реверс мы передаем имя url из urls.py и параметр из path urls.py (<slug:slug>/")
+        return reverse("movie_detail", kwargs={"slug": self.url})
 
     def __str__(self):
         return f'{self.title} | {self.year} | {self.genres} | {self.directors}'

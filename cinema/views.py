@@ -1,17 +1,21 @@
 from django.shortcuts import render
-from django.views.generic.base import View
+from django.views.generic import ListView, DetailView
 
 from .models import Movie
 
 
-class MoviesView(View):
+class MoviesView(ListView):
     """
     Класс для отображения списка фильмов на главной.
+    Атрибут template_name не пишем так как наши шаблон назван move_list
+    Django автоматом добавляет к имени модели суффикс _ и list при использовании ListView
     """
-    def get(self, request):              # request это вся информация присланная в метод из браузера
-        movies = Movie.objects.all()     # из базы данных берем все записи из таблицы movies
-        return render(request, "cinema/movies.html", {"movies_list": movies})  # рендерим наши фильмы
+    model = Movie
+    queryset = Movie.objects.all()   # Выводит все фильмы кроме draft=False
 
 
-
+class MovieDetailView(DetailView):
+    """Класс который выводит полное описание фильма"""
+    model = Movie
+    slug_field = "url"  # этот атрибут отвечает за то по какому полю будем искать запись по URL
 
