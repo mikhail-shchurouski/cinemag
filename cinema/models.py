@@ -73,7 +73,7 @@ class Movie(models.Model):
     actors = models.ManyToManyField(ActorDirector, verbose_name="Актер",
                                     related_name="film_actor")
     genres = models.ManyToManyField(Genre, verbose_name="Жанр")
-    world_premiere = models.DateField(default=date.today, verbose_name="Примъера в мире")
+    world_premiere = models.DateField(default=date.today, verbose_name="Премьера в мире")
     budget = models.PositiveIntegerField(default=0, help_text="$", verbose_name="Бюджет")
     fees_in_usa = models.PositiveIntegerField(default=0, help_text="$", verbose_name="Сборы в США")
     fees_in_world = models.PositiveIntegerField(default=0, help_text="$", verbose_name="Сборы в мире")
@@ -128,7 +128,7 @@ class Rating(models.Model):
     """
     ip = models.CharField(max_length=15, verbose_name="IP адрес")
     stat = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="Звезда")
-    movie = models.ForeignKey(Movie, on_delete=models.CharField, verbose_name="Фильм")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="Фильм")
 
     class Meta:
         verbose_name = _("Рейтинг")
